@@ -25,7 +25,9 @@ def response(flow):
     outS = flow.request.get_text()
     if outS:
       out = urllib.parse.parse_qs(outS)
-      if out["service"] and out["service"] == 'oauth2:https://www.googleapis.com/auth/googleplay':
+      service = out["service"]
+
+      if service and service[0] == 'oauth2:https://www.googleapis.com/auth/googleplay':
         op = "auth"
         fname = time.strftime(f"%Y-%m-%d_%H-%M-%S_{op}")
         auth_refresh = {}
@@ -73,13 +75,12 @@ def response(flow):
           auth_session["country"] = auth_refresh["country"]
           auth_session["google_play_services_version"] = auth_refresh["google_play_services_version"]
           auth_session["sdk_version"] = auth_refresh["sdk_version"]
-          auth_session["token"] = bodyD["it"]
+          auth_session["token"] = bodyD["Auth"]
           auth_session["issueAdvice"] = bodyD["issueAdvice"]
           auth_session["expiration"] = bodyD["Expiry"]
           auth_session["expirationDuration"] = bodyD["ExpiresInDurationSec"]
           auth_session["storeConsentRemotely"] = bodyD["storeConsentRemotely"]
           auth_session["isTokenSnowballed"] = bodyD["isTokenSnowballed"]
-          auth_session["itMetadata"] = bodyD["itMetadata"]
 
 
           js = open(f"{outDir}/{fname}-session.json", "w")
@@ -88,7 +89,7 @@ def response(flow):
 
 
       else:
-        logging.info(f"Saw non-store auth: {url}")
+        logging.info(f"Saw non-store auth: {service}")
 
 
   if flow.request.path.startswith("/fdfe"):
