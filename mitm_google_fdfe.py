@@ -28,18 +28,18 @@ def response(flow):
       if out["app"] and out["app"][0] == "com.android.vending":
         op = "auth"
         fname = time.strftime(f"%Y-%m-%d_%H-%M-%S_{op}")
-        auth_refersh = {}
-        auth_refersh["email"] = out["Email"][0]
-        auth_refersh["token"] = out["Token"][0]
-        auth_refersh["gsfid"] = out["androidId"][0]
-        auth_refersh["language"] = out["lang"][0]
-        auth_refersh["country"] = out["device_country"][0]
-        auth_refersh["google_play_services_version"] = out["google_play_services_version"][0]
-        auth_refersh["sdk_version"] = out["sdk_version"][0]
-        auth_refersh["signature"] = out["client_sig"][0]
+        auth_refresh = {}
+        auth_refresh["email"] = out["Email"][0]
+        auth_refresh["token"] = out["Token"][0]
+        auth_refresh["gsfid"] = out["androidId"][0]
+        auth_refresh["language"] = out["lang"][0]
+        auth_refresh["country"] = out["device_country"][0]
+        auth_refresh["google_play_services_version"] = out["google_play_services_version"][0]
+        auth_refresh["sdk_version"] = out["sdk_version"][0]
+        auth_refresh["signature"] = out["client_sig"][0]
 
         jr = open(f"{outDir}/{fname}-refresh.json", "w")
-        jr.write(json.dumps(auth_refersh, indent = 2))
+        jr.write(json.dumps(auth_refresh, indent = 2))
         jr.close()
 
         params = {}
@@ -67,12 +67,12 @@ def response(flow):
             bodyD[k]=v
 
           auth_session = {}
-          auth_session["email"] = auth_refersh["email"]
-          auth_session["gsfid"] = auth_refersh["gsfid"]
-          auth_session["language"] = auth_refersh["language"]
-          auth_session["country"] = auth_refersh["country"]
-          auth_session["google_play_services_version"] = auth_refersh["google_play_services_version"]
-          auth_session["sdk_version"] = auth_refersh["sdk_version"]
+          auth_session["email"] = auth_refresh["email"]
+          auth_session["gsfid"] = auth_refresh["gsfid"]
+          auth_session["language"] = auth_refresh["language"]
+          auth_session["country"] = auth_refresh["country"]
+          auth_session["google_play_services_version"] = auth_refresh["google_play_services_version"]
+          auth_session["sdk_version"] = auth_refresh["sdk_version"]
           auth_session["token"] = bodyD["it"]
           auth_session["issueAdvice"] = bodyD["issueAdvice"]
           auth_session["expiration"] = bodyD["Expiry"]
