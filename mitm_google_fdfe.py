@@ -25,9 +25,8 @@ def response(flow):
     outS = flow.request.get_text()
     if outS:
       out = urllib.parse.parse_qs(outS)
-      service = out["service"]
 
-      if service and service[0] == 'oauth2:https://www.googleapis.com/auth/googleplay':
+      if out and out["service"] and out["service"][0] == 'oauth2:https://www.googleapis.com/auth/googleplay':
         op = "auth"
         fname = time.strftime(f"%Y-%m-%d_%H-%M-%S_{op}")
         auth_refresh = {}
@@ -90,6 +89,9 @@ def response(flow):
           logging.info(f"Saved {fname}.js, {fname}-out.txt, {fname}-refresh.json, {fname}-session.json  in {outDir}")
 
       else:
+        service = "unknown service"
+        if out and out["service"]:
+          service = out["service"]
         logging.info(f"Saw non-store auth: {service}")
 
 

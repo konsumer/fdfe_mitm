@@ -16,3 +16,9 @@ docker run -p 8080:8080 -v $(pwd)/mitm-config:/home/mitmproxy/.mitmproxy -v $(pw
 # If you want to play around with the logging script (live-reloading):
 docker run -p 8081:8081 -p 8080:8080 -v $(pwd)/mitm_google_fdfe.py:/usr/share/mitm_google_fdfe.py -v $(pwd)/mitm-config:/home/mitmproxy/.mitmproxy -v $(pwd)/out:/out -it --rm konsumer/fdfe_mitm web
 ```
+
+Here is how I publish:
+
+```
+docker buildx build --push --platform linux/arm64/v8,linux/amd64 --tag konsumer/fdfe_mitm:latest .
+```
