@@ -87,6 +87,7 @@ def response(flow):
           js.write(json.dumps(auth_session, indent = 2))
           js.close()
 
+          logging.info(f"Saved {fname}.js, {fname}-out.txt, {fname}-refresh.json, {fname}-session.json  in {outDir}")
 
       else:
         logging.info(f"Saw non-store auth: {service}")
@@ -97,7 +98,7 @@ def response(flow):
     op = flow.request.path.split('?')[0].replace("/fdfe/", "").replace("'", "\\'").replace('/', '-')
     fname = time.strftime(f"%Y-%m-%d_%H-%M-%S_{op}")
 
-    logging.info(f"Saved {fname}.mjs and {fname}.pb in {outDir}")
+    logging.info(f"Saved {fname}.js and {fname}.pb in {outDir}")
 
     body = flow.response.get_content()
     url = flow.request.scheme + "://" + flow.request.pretty_host + flow.request.path
