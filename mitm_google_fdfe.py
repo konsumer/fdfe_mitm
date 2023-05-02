@@ -25,7 +25,7 @@ def response(flow):
     outS = flow.request.get_text()
     if outS:
       out = urllib.parse.parse_qs(outS)
-      if out["app"] and out["app"][0] == "com.android.vending":
+      if out["service"] and out["service"] == 'oauth2:https://www.googleapis.com/auth/googleplay':
         op = "auth"
         fname = time.strftime(f"%Y-%m-%d_%H-%M-%S_{op}")
         auth_refresh = {}
